@@ -3,31 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>達康科技</title>
+    <title>達康科技-鋁擠型長度試算表</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             max-width: 100%;
-            margin-top: 0px;
+            margin: 0;
             padding: 10px;
-            user-select: none;   /* 禁用本文4行 */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            }
-
-
+        }
         h2 {
-        margin-top: 0px; /* 或者您想要的任何值 */
+            margin-top: 0;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 0px;
+            margin-bottom: 10px;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 4px;
             text-align: left;
             font-size: 1.1em;
         }
@@ -36,22 +30,21 @@
         }
         input, select {
             width: 100%;
-            padding: 5px;
+            padding: 4px;
             box-sizing: border-box;
             font-size: 1em;
         }
-        button {                 /* 新增一項 */
+        button {
             margin-top: 10px;
             padding: 5px 10px;
             font-size: 1em;
         }
-
         .deleteBtn, .copyBtn {
             border: none;
-            padding: 5px 10px;
+            padding: 4px 9px;
             cursor: pointer;
-            font-size: 0.9em;
-            margin: 0px;
+            font-size: 0.8em;
+            margin: 0;
         }
         .deleteBtn {
             background-color: #ff4d4d;
@@ -70,140 +63,110 @@
             border: none;
             cursor: pointer;
         }
-        
-       @media (max-width: 768px) {  /* 簡化媒體查詢 */
-       body {
-        font-size: 14px; /* 調整基準字體大小 */
-       }
-       }
-
-      #screenshotBtn {
-            background-color: orange;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px; /* 導圓角 */
-            cursor: pointer;
+        #screenshotBtn, #exportExcel {
             float: left;
-            margin-left: 0px;  /* 與其他按鈕保持一定距離  順序要在DIV調整 */
-        }
-
-
-        #exportExcel {
-            background-color: #006400;
-            color: white;
+            margin-right: 15px;
             border: none;
             border-radius: 5px;
             padding: 10px 20px;
             cursor: pointer;
             font-size: 1em;
-            margin-top: 10px;
+        }
+        #screenshotBtn {
+            background-color: orange;
+            color: white;
+        }
+        #exportExcel {
+            background-color: #006400;
+            color: white;
+        }
+        .contact-info {
             float: left;
-            margin-left: 15px;  /* 與其他按鈕保持一定距離 順序要在DIV調整*/
+            margin-top: 10px;
+            font-size: 1em;
         }
-    
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
+        #bidResult {
+            margin-left: 10px;
+        }
+        .red-big-number {
+            color: red;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        .gray-number {
+            color: #666;
+            font-size: 1.2em;
         }
 
-       .contact-info {  /* 聯絡方式 */
-        float: left;
-        margin-top: 10px;
-        margin-left: 10px;
-        font-size: 1em;
-       }
-              
-        #content-to-capture { border: 1px solid transparent; } /* 用于标记需要截图的区域 */
-      
-      #bidSection h3 {
-          margin-bottom: 0px;
-      }
-      #bidResult {        /* 下標結果 */
-          margin-left: 10px;
-                              /* color: red; */
-      }
+optgroup {                
+    font-weight: normal;  
+    color: #888;         
+    background-color: #f0f0f0;
+}
 
-     .calculation {
-         margin-left: 10px;
-         
-     }
+optgroup::after {
+    content: "";
+    display: block;
+    height: 1px;
+    background-color: #ccc;
+    margin-top: 2px;
+}
 
+option {
+    font-weight: normal;
+    font-style: normal;
+    color: #000;
+    background-color: #fff;
+}       
 
-     .total-amount {        /* 總金額   原來有display: block; 但是上下空間會擴大*/
-         font-size: 1.2em;                     
-     }
-
-     .total-amount .red-big-number {
-         font-size: 1.2em;
-     }
-
-     .total-weight {         /* 總重量 原來有display: block; 但是上下空間會擴大 */
-         font-size: 1.2em;
-         margin-top: 0px;
-     }
-
-      .red-big-number {
-        color: red;
-        font-size: 1.4em;  /* 下標數量  */
-        font-weight: bold;
-      }
-
-     .gray-number {       
-         color: #666;
-         font-size: 1em;
-     }
-
-
-
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+        }
     </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
-  <div id="content-to-capture">
-    <h2>鋁擠型長度試算表</h2>
-    <table id="orderTable">
-        <thead>
-            <tr>
-                <th style="width: 30%;">鋁擠型 型號</th>
+    <div id="content-to-capture">
+        <h2>鋁擠型長度試算表</h2>
+        <table id="orderTable">
+            <thead>
+                <tr>
+              <th style="width: 4%;">序號</th>
+                <th style="width: 26%;">鋁擠型 型號</th>
                 <th style="width: 20%;">長度(mm)</th>
-                <th style="width: 15%;">數量</th>
-                <th style="width: 20%;">金額</th>
-                <th style="width: 15%;">操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- JavaScript will generate rows here -->
-        </tbody>
-    </table>
-    <button id="addRow">新增一項</button>     
- 
-<div id="bidSection">
-    <h3>網拍下標數量及金額:</h3>
-    <div id="bidResult">
-        <div id="totalAmount">總金額: $0</div>
-        <div id="totalWeight">總重量: 0 kg</div>
-        <div id="totalLength">總長度: 0 mm</div>
-    </div>
+                <th style="width: 10%;">數量</th>
+                <th style="width: 18%;">金額</th>
+                <th style="width: 22%;">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- JavaScript will generate rows here -->
+            </tbody>
+        </table>
+
+<div style="margin-bottom: 5px;">
+    <textarea id="remarks" placeholder="備註:公司抬頭統編或加工項目" style="width: 330px; height: 40px; font-size: 16px;""></textarea>
 </div>
 
+        <button id="addRow">新增一項</button>     
 
-  <div class="clearfix">
-              <button id="screenshotBtn" onclick="takeScreenshot()">表格截圖</button>
-              <button id="exportExcel">匯出EXCEL檔</button>
-              <div class="contact-info">
-            PS : 截圖或EXCEL檔 可傳至>>網拍私訊｜LINE🆔@606mbsep｜📩indesign168@gmail.com<br>© 2024 達康科技版權所有。未經授權嚴禁複製盜用。
-        </div>
+        <div id="bidSection">
+             <div id="bidResult"></div>        
     </div>
 
-    <script>
-        
-var _0x673461=_0x562e;(function(_0x1d7f8d,_0xb6c3d9){var _0x1be8f1=_0x562e,_0x571d2a=_0x1d7f8d();while(!![]){try{var _0x41dd8e=parseInt(_0x1be8f1(0x17d))/0x1+parseInt(_0x1be8f1(0x177))/0x2+-parseInt(_0x1be8f1(0x172))/0x3*(-parseInt(_0x1be8f1(0x173))/0x4)+-parseInt(_0x1be8f1(0x174))/0x5*(parseInt(_0x1be8f1(0x180))/0x6)+-parseInt(_0x1be8f1(0x17f))/0x7*(-parseInt(_0x1be8f1(0x181))/0x8)+-parseInt(_0x1be8f1(0x179))/0x9+-parseInt(_0x1be8f1(0x17a))/0xa*(parseInt(_0x1be8f1(0x17b))/0xb);if(_0x41dd8e===_0xb6c3d9)break;else _0x571d2a['push'](_0x571d2a['shift']());}catch(_0x50b255){_0x571d2a['push'](_0x571d2a['shift']());}}}(_0x3d65,0x20467),eval(function(_0x51808e,_0x4aff38,_0x4618e8,_0x4227ef,_0xa43846,_0x4fe859){_0xa43846=function(_0x27df1e){var _0x35328f=_0x562e;return(_0x27df1e<_0x4aff38?'':_0xa43846(parseInt(_0x27df1e/_0x4aff38)))+((_0x27df1e=_0x27df1e%_0x4aff38)>0x23?String[_0x35328f(0x175)](_0x27df1e+0x1d):_0x27df1e[_0x35328f(0x17e)](0x24));};if(!''['replace'](/^/,String)){while(_0x4618e8--)_0x4fe859[_0xa43846(_0x4618e8)]=_0x4227ef[_0x4618e8]||_0xa43846(_0x4618e8);_0x4227ef=[function(_0x46a217){return _0x4fe859[_0x46a217];}],_0xa43846=function(){return'\x5cw+';},_0x4618e8=0x1;};while(_0x4618e8--)if(_0x4227ef[_0x4618e8])_0x51808e=_0x51808e['replace'](new RegExp('\x5cb'+_0xa43846(_0x4618e8)+'\x5cb','g'),_0x4227ef[_0x4618e8]);return _0x51808e;}(_0x673461(0x17c),0x3e,0x120,_0x673461(0x176)[_0x673461(0x178)]('|'),0x0,{})));function _0x562e(_0x51d616,_0x5a82b8){var _0x3d6583=_0x3d65();return _0x562e=function(_0x562e9e,_0x4eebe9){_0x562e9e=_0x562e9e-0x172;var _0x7725bc=_0x3d6583[_0x562e9e];return _0x7725bc;},_0x562e(_0x51d616,_0x5a82b8);}function _0x3d65(){var _0x1f34e0=['443996fijKKK','split','192537YqerzX','20390TcSSaj','1903BsXneT','f\x201P={v:2H,w:2I,\x22V\x22:2J,\x22黑色v\x22:2K,\x22黑色w\x22:2L,q:2M,\x22W(薄型)\x22:2N,x:2O,y:1q,\x22X(薄型)\x22:2P,\x22z\x22:23,\x22A\x22:2Q,\x22Y\x22:2R,B:2S,C:2T,D:2U,E:2V,\x22F\x22:2W,\x22Z\x22:2X,\x2211\x22:2Y,\x2212\x22:2Z,\x2213\x22:32,\x2215\x22:33,\x22黑色q\x22:34,\x22黑色C\x22:35,\x22黑色D\x22:36,\x22黑色E\x22:38,\x22黑色F\x22:39,\x22黑色x\x22:3a,\x22黑色y\x22:3b,\x22黑色B\x22:25,\x22黑色z\x22:3c,\x22黑色A\x22:3d,G:3e,\x221r(薄型)\x22:3f,\x2216(薄型)\x22:26,\x2217\x22:3g,\x2219\x22:3h,\x22H\x22:26,I:25,\x221a(薄型)\x22:3i,J:3j,\x221b(薄型)\x22:3k,\x22K\x22:3l,\x22L\x22:3m,1c:3n,1d:3o,1e:3p,\x221f\x22:23,\x221g\x22:3q,\x221h\x22:3r,\x22黑色G\x22:3s,\x22黑色H\x22:3t,\x22黑色I\x22:3u,\x22黑色J\x22:3v,\x22黑色K\x22:3w,\x22黑色L\x22:3x,1i:3y,1j:3z},1A={v:.46,w:.27,\x22V\x22:1.18,\x22黑色v\x22:.46,\x22黑色w\x22:.27,q:1.28,\x22W(薄型)\x22:.3A,x:1.1B,y:2.7,\x22X(薄型)\x22:1.37,\x22z\x22:2.44,\x22A\x22:2.31,\x22Y\x22:2.2a,B:2.2b,C:.2c,D:1.29,E:2.2d,\x22F\x22:.1B,\x22Z\x22:1.3B,\x2211\x22:1.3C,\x2212\x22:1.5,\x2213\x22:1.3D,\x2215\x22:1.2a,\x22黑色q\x22:1.28,\x22黑色C\x22:.2c,\x22黑色D\x22:1.29,\x22黑色E\x22:2.2d,\x22黑色F\x22:.1B,\x22黑色x\x22:1.1B,\x22黑色y\x22:2.7,\x22黑色B\x22:2.2b,\x22黑色z\x22:2.44,\x22黑色A\x22:2.31,G:1.1Q,\x223E(薄型)0\x22:1.42,\x2216(薄型)\x22:1.49,\x2217\x22:1.1R,\x2219\x22:1.3F,\x22H\x22:1.5,I:3.2e,\x221a(薄型)\x22:2.47,J:5.2f,\x221b(薄型)\x22:3.46,\x22K\x22:4.41,\x22L\x22:3.1R,1c:7.3G,1d:9.3H,1e:4.1Q,\x221f\x22:2.44,\x221g\x22:2.3I,\x221h\x22:2.3J,\x22黑色G\x22:1.1Q,\x22黑色H\x22:1.5,\x22黑色I\x22:3.2e,\x22黑色J\x22:5.2f,\x22黑色K\x22:4.41,\x22黑色L\x22:3.1R,1i:3.24,1j:7.14};j\x201C(e=\x22q\x22,t=\x22\x22,o=\x221\x22){f\x20n=g.h(\x22#1s\x201t\x22),l=n.3K();l.1S=`\x5cn<M>\x5cn<2g\x20k=\x22Q\x22>\x5cn<6\x201T>-----20系列-----</6>\x5cn<6\x208=\x22v\x22${\x22v\x22===e?\x22b\x22:\x22\x22}>v</6>\x5cn<6\x208=\x22w\x22${\x22w\x22===e?\x22b\x22:\x22\x22}>w</6>\x5cn<6\x208=\x22V\x22${\x22V\x22===e?\x22b\x22:\x22\x22}>V</6>\x5cn<6\x208=\x22黑色v\x22${\x22黑色v\x22===e?\x22b\x22:\x22\x22}>黑色v</6>\x5cn<6\x208=\x22黑色w\x22${\x22黑色w\x22===e?\x22b\x22:\x22\x22}>黑色w</6>\x5cn<6\x201T>-----30系列-----</6>\x5cn<6\x208=\x22q\x22${\x22q\x22===e?\x22b\x22:\x22\x22}>q</6>\x5cn<6\x208=\x22W(薄型)\x22${\x22W(薄型)\x22===e?\x22b\x22:\x22\x22}>W(薄型)</6>\x5cn<6\x208=\x22x\x22${\x22x\x22===e?\x22b\x22:\x22\x22}>x</6>\x5cn<6\x208=\x22y\x22${\x22y\x22===e?\x22b\x22:\x22\x22}>y</6>\x5cn<6\x208=\x22X(薄型)\x22${\x22X(薄型)\x22===e?\x22b\x22:\x22\x22}>X(薄型)</6>\x5cn<6\x208=\x22z\x22${\x22z\x22===e?\x22b\x22:\x22\x22}>z</6>\x5cn<6\x208=\x22A\x22${\x22A\x22===e?\x22b\x22:\x22\x22}>A</6>\x5cn<6\x208=\x22Y\x22${\x22Y\x22===e?\x22b\x22:\x22\x22}>Y</6>\x5cn<6\x208=\x22B\x22${\x22B\x22===e?\x22b\x22:\x22\x22}>B</6>\x5cn<6\x208=\x22C\x22${\x22C\x22===e?\x22b\x22:\x22\x22}>C</6>\x5cn<6\x208=\x22D\x22${\x22D\x22===e?\x22b\x22:\x22\x22}>D</6>\x5cn<6\x208=\x22E\x22${\x22E\x22===e?\x22b\x22:\x22\x22}>E</6>\x5cn<6\x208=\x22F\x22${\x22F\x22===e?\x22b\x22:\x22\x22}>F</6>\x5cn<6\x208=\x22Z\x22${\x22Z\x22===e?\x22b\x22:\x22\x22}>Z</6>\x5cn<6\x208=\x2211\x22${\x2211\x22===e?\x22b\x22:\x22\x22}>11</6>\x5cn<6\x208=\x2212\x22${\x2212\x22===e?\x22b\x22:\x22\x22}>12</6>\x5cn<6\x208=\x2213\x22${\x2213\x22===e?\x22b\x22:\x22\x22}>13</6>\x5cn<6\x208=\x2215\x22${\x2215\x22===e?\x22b\x22:\x22\x22}>15</6>\x5cn<6\x208=\x22黑色q\x22${\x22黑色q\x22===e?\x22b\x22:\x22\x22}>黑色q</6>\x5cn<6\x208=\x22黑色C\x22${\x22黑色C\x22===e?\x22b\x22:\x22\x22}>黑色C</6>\x5cn<6\x208=\x22黑色D\x22${\x22黑色D\x22===e?\x22b\x22:\x22\x22}>黑色D</6>\x5cn<6\x208=\x22黑色E\x22${\x22黑色E\x22===e?\x22b\x22:\x22\x22}>黑色E</6>\x5cn<6\x208=\x22黑色F\x22${\x22黑色F\x22===e?\x22b\x22:\x22\x22}>黑色F</6>\x5cn<6\x208=\x22黑色x\x22${\x22黑色x\x22===e?\x22b\x22:\x22\x22}>黑色x</6>\x5cn<6\x208=\x22黑色y\x22${\x22黑色y\x22===e?\x22b\x22:\x22\x22}>黑色y</6>\x5cn<6\x208=\x22黑色B\x22${\x22黑色B\x22===e?\x22b\x22:\x22\x22}>黑色B</6>\x5cn<6\x208=\x22黑色z\x22${\x22黑色z\x22===e?\x22b\x22:\x22\x22}>黑色z</6>\x5cn<6\x208=\x22黑色A\x22${\x22黑色A\x22===e?\x22b\x22:\x22\x22}>黑色A</6>\x5cn<6\x201T>-----40系列-----</6>\x5cn<6\x208=\x22G\x22${\x22G\x22===e?\x22b\x22:\x22\x22}>G</6>\x5cn<6\x208=\x221r(薄型)\x22${\x221r(薄型)\x22===e?\x22b\x22:\x22\x22}>1r(薄型)</6>\x5cn<6\x208=\x2216(薄型)\x22${\x2216(薄型)\x22===e?\x22b\x22:\x22\x22}>16(薄型)</6>\x5cn<6\x208=\x2217\x22${\x2217\x22===e?\x22b\x22:\x22\x22}>17</6>\x5cn<6\x208=\x2219\x22${\x2219\x22===e?\x22b\x22:\x22\x22}>19</6>\x5cn<6\x208=\x22H\x22${\x22H\x22===e?\x22b\x22:\x22\x22}>H</6>\x5cn<6\x208=\x22I\x22${\x22I\x22===e?\x22b\x22:\x22\x22}>I</6>\x5cn<6\x208=\x221a(薄型)\x22${\x221a(薄型)\x22===e?\x22b\x22:\x22\x22}>1a(薄型)</6>\x5cn<6\x208=\x22J\x22${\x22J\x22===e?\x22b\x22:\x22\x22}>J</6>\x5cn<6\x208=\x221b(薄型)\x22${\x221b(薄型)\x22===e?\x22b\x22:\x22\x22}>1b(薄型)</6>\x5cn<6\x208=\x22K\x22${\x22K\x22===e?\x22b\x22:\x22\x22}>K</6>\x5cn<6\x208=\x22L\x22${\x22L\x22===e?\x22b\x22:\x22\x22}>L</6>\x5cn<6\x208=\x221c\x22${\x221c\x22===e?\x22b\x22:\x22\x22}>1c</6>\x5cn<6\x208=\x221d\x22${\x221d\x22===e?\x22b\x22:\x22\x22}>1d</6>\x5cn<6\x208=\x221e\x22${\x221e\x22===e?\x22b\x22:\x22\x22}>1e</6>\x5cn<6\x208=\x221f\x22${\x221f\x22===e?\x22b\x22:\x22\x22}>1f</6>\x5cn<6\x208=\x221g\x22${\x221g\x22===e?\x22b\x22:\x22\x22}>1g</6>\x5cn<6\x208=\x221h\x22${\x221h\x22===e?\x22b\x22:\x22\x22}>1h</6>\x5cn<6\x208=\x22黑色G\x22${\x22黑色G\x22===e?\x22b\x22:\x22\x22}>黑色G</6>\x5cn<6\x208=\x22黑色H\x22${\x22黑色H\x22===e?\x22b\x22:\x22\x22}>黑色H</6>\x5cn<6\x208=\x22黑色I\x22${\x22黑色I\x22===e?\x22b\x22:\x22\x22}>黑色I</6>\x5cn<6\x208=\x22黑色J\x22${\x22黑色J\x22===e?\x22b\x22:\x22\x22}>黑色J</6>\x5cn<6\x208=\x22黑色K\x22${\x22黑色K\x22===e?\x22b\x22:\x22\x22}>黑色K</6>\x5cn<6\x208=\x22黑色L\x22${\x22黑色L\x22===e?\x22b\x22:\x22\x22}>黑色L</6>\x5cn<6\x208=\x221i\x22${\x221i\x22===e?\x22b\x22:\x22\x22}>1i</6>\x5cn<6\x208=\x221j\x22${\x221j\x22===e?\x22b\x22:\x22\x22}>1j</6>\x5cn</2g>\x5cn</M>\x5cn<M>\x5cn<1u\x202h=\x221v\x22k=\x22N\x222i=\x2230\x223L=\x222j\x228=\x22${t}\x22>\x5cn<1D\x20k=\x222k\x22></1D>\x5cn</M>\x5cn<M>\x5cn<1u\x202h=\x221v\x22k=\x221k\x222i=\x221\x228=\x22${o}\x22>\x5cn<1D\x20k=\x222k\x22></1D>\x5cn</M>\x5cn<M\x20k=\x221w\x22>0</M>\x5cn<M>\x5cn<1E\x20k=\x222l\x22>複製</1E>\x5cn<1E\x20k=\x222m\x22>刪除</1E>\x5cn</M>\x5cn`;f\x20a=l.h(\x22.Q\x22),i=l.h(\x22.N\x22),c=l.h(\x22.1k\x22);a.r(\x223M\x22,()=>{T(),1F(l)}),i.r(\x221u\x22,j(){1F(l)&&(T(),O())}),i.r(\x222n\x22,j(e){1F(l)&&1U(e,30,3N,\x22長度必須在30到2j之間\x22)}),c.r(\x221u\x22,T),c.r(\x222n\x22,j(e){1U(e,1,1/0,\x22數量必須為正整數\x22)}),l.h(\x22.2m\x22).r(\x221l\x22,j(){l.2o(),O(),T()}),l.h(\x22.2l\x22).r(\x221l\x22,j(){f\x20e=a.8,t=i.8,o=c.8;1C(e,\x22\x22,\x221\x22),T(),O()}),T(),O()}j\x201U(e,t,o,n){f\x20l=e.2p,a=l.2q,i=1m(l.8);1V\x203O(i)||i<t||i>o?(a.P=n,a.1n.2r=\x221o\x22,l.1n.1G=\x221o\x22,l.8=\x22\x22,!1):(a.P=\x22\x22,l.1n.1G=\x22\x22,l.8=i,!0)}j\x20T(){U\x20e=0,t=0,o=0,n={v:0,w:0,\x22V\x22:0,\x22黑色v\x22:0,\x22黑色w\x22:0,q:0,W:0,x:0,y:0,X:0,\x22z\x22:0,\x22A\x22:0,\x22Y\x22:0,B:0,C:0,D:0,E:0,\x22F\x22:0,\x22Z\x22:0,\x2211\x22:0,\x2212\x22:0,\x2213\x22:0,\x2215\x22:0,\x22黑色q\x22:0,\x22黑色C\x22:0,\x22黑色D\x22:0,\x22黑色E\x22:0,\x22黑色F\x22:0,\x22黑色x\x22:0,\x22黑色y\x22:0,\x22黑色B\x22:0,\x22黑色z\x22:0,\x22黑色A\x22:0,G:0,1r:0,16:0,\x2217\x22:0,\x2219\x22:0,\x22H\x22:0,I:0,1a:0,J:0,1b:0,\x22K\x22:0,\x22L\x22:0,1c:0,1d:0,1e:0,\x221f\x22:0,\x221g\x22:0,\x221h\x22:0,\x22黑色G\x22:0,\x22黑色H\x22:0,\x22黑色I\x22:0,\x22黑色J\x22:0,\x22黑色K\x22:0,\x22黑色L\x22:0,1i:0,1j:0};g.1H(\x22#1s\x201t\x201I\x22).1J(l=>{f\x20a=l.h(\x22.Q\x22).8,i=1m(l.h(\x22.N\x22).8)||0,c=1m(l.h(\x22.1k\x22).8)||0,u=1P[a]*i*c/1q,d=1A[a]*i*c/1q;l.h(\x22.1w\x22).P=u.R(2),e+=u,t+=d,o+=i*c,n[a]+=i*c});f\x20l=1x.3P(e);g.S(\x223Q\x22).P=`總金額:$${l}`,g.S(\x223R\x22).P=`總重量:${t.R(2)}1W`,g.S(\x221K\x22).P=`總長度:${o}1L`;U\x20a=\x22網拍下標數量:<1y>\x22;1X(U\x20e\x202s\x20n)1M(n[e]>0){f\x20t=1x.1Y(n[e]/1Z);a+=`${e}:${t}<1y>`}g.S(\x223S\x22).1S=a,O()}j\x202t(){U\x20e=[[\x22鋁擠型\x20型號\x22,\x22長度(1L)\x22,\x22數量\x22,\x22金額\x22]],t=0,o=0,n=0,l={};g.1H(\x22#1s\x201t\x201I\x22).1J(a=>{f\x20i=a.h(\x22.Q\x22).8,c=1m(a.h(\x22.N\x22).8)||0,u=1m(a.h(\x22.1k\x22).8)||0,d=2u(a.h(\x22.1w\x22).P);e.1p([i,c,u,d]),t+=d,o+=1A[i]*c*u/1q,n+=c*u,l[i]?l[i]+=c*u:l[i]=c*u}),e.1p([\x22總金額\x22,\x22\x22,\x22\x22,t.R(2)]),e.1p([\x22總重量\x22,\x22\x22,\x22\x22,o.R(2)+\x22\x201W\x22]),e.1p([\x22總長度\x22,\x22\x22,\x22\x22,n+\x22\x201L\x22]),e.1p([\x22網拍下標\x22]);1X(U\x20t\x202s\x20l){f\x20o=1x.1Y(l[t]/1Z);e.1p([t,o])}f\x20a=1N.21.3T(e),i=1N.21.3U();1N.21.3V(i,a,\x22鋁擠型訂單\x22),1N.3W(i,\x22鋁擠型訂單.3X\x22)}j\x203Y(){2v(g.22).2w(j(e){3Z\x20t=e.2x(\x221O/1z\x22),o=g.2y(\x22a\x22);o.2z=t,o.2A=\x22鋁擠型長度試算表截圖.1z\x22,g.22.43(o),o.1l(),g.22.45(o)})}j\x2048(){f\x20e=g.S(\x224a-4b-4c\x22);2v(e,{4d:4e,4f:!0,4g:2}).2w(e=>{f\x20t=e.2x(\x221O/1z\x22).4h(\x221O/1z\x22,\x221O/4i-4j\x22),o=g.2y(\x22a\x22);o.2A=\x22購物車截圖.1z\x22,o.2z=t,o.1l()})}j\x20O(){f\x20e={},t=g.1H(\x22#1s\x201t\x201I\x22);t.1J(t=>{f\x20o=t.h(\x22.Q\x22).8,n=2u(t.h(\x22.N\x22).8)||0,l=1m(t.h(\x22.1k\x22).8)||0;o&&(e[o]||(e[o]={1K:0,2B:0}),e[o].1K+=n*l,e[o].2B+=l)}),2C(e)}j\x202C(e){f\x20t=g.S(\x224k\x22);1M(t.4l.2o(\x224m-4n\x22),t){U\x20o=\x22\x22,n=0,l=0;1M(0===2D.4o(e).N)o=\x22選擇型號>輸入長度及數量>結果將顯示在這裡\x22;4p{1X(f[t,a]4q\x202D.4r(e)){f\x20e=1x.4s(a.1K),i=1x.1Y(e/1Z),c=1P[t]||0,u=(c/10).R(1),d=i*u;n+=d;f\x20p=1A[t]||0,s=e/1q*p;l+=s,o+=`${t}下標:<m\x20k=\x221o-2E-1v\x22>${i}</m>(總長共:${e}1L)`,o+=\x27<m\x20k=\x224t\x22>\x27,o+=`*單價${u}=`,o+=`<m\x20k=\x224u-2F\x22>$${d.R(2)}</m>`,o+=\x22</m><1y>\x22}o+=\x27<1y><m\x20k=\x221w-2F\x22>總金額：\x27,o+=`<m\x20k=\x221o-2E-1v\x22>$${n.R(2)}</m>`,o+=\x22</m>\x22,o+=\x27<1y><m\x20k=\x221w-4v\x22>總重量：\x27,o+=`<m\x20k=\x224w-1v\x22>${l.R(2)}1W</m>`,o+=\x22</m>\x22}t.1S=o}}j\x201F(e){f\x20t=e.h(\x22.Q\x22).8,o=e.h(\x22.N\x22).8,n=g.1H(\x22#1s\x201t\x201I\x22);U\x20l=!1;n.1J(n=>{1M(n!==e){f\x20e=n.h(\x22.Q\x22).8,a=n.h(\x22.N\x22).8;t===e&&o===a&&(l=!0)}});f\x20a=e.h(\x22.N\x22),i=a.2q;1V\x20l?(i.P=\x22提示：同型號且同長度\x20請合併數量\x22,i.1n.2r=\x221o\x22,a.1n.1G=\x221o\x22,!1):(i.P=\x22\x22,a.1n.1G=\x22\x22,!0)}j\x204x(){1V\x22\x22}j\x204y(){O()}g.S(\x224z\x22).r(\x221l\x22,2t),g.S(\x224A\x22).r(\x221l\x22,()=>1C()),g.r(\x222G\x22,O),g.r(\x222G\x22,j(){g.r(\x224B\x22,e=>e.4C()),1C(),O()}),g.r(\x221u\x22,j(e){e.2p.4D(\x22.Q,\x20.N,\x20.1k\x22)&&O()});','3887XExonm','toString','525098DBIvfx','114oVVGup','24cMoeKk','12npjSQM','134148wKPqjh','20720imVGYF','fromCharCode','||||||option||value|||selected||||const|document|querySelector||function|class||span||||3030|addEventListener||||2020|2040|3060|3090|6630L|6630R|6060|1530|1560|1590|3030R|4040|4040R|4080|8080|8840L|8840R|td|length|updateModelSummary|textContent|model|toFixed|getElementById|calculateTotal|let|4420L|L3030|L3060|6060R|3030C1||3030C2|30a120|30a135||30a150|L4040M12|4040C1||4040C2|L4080|L8080|80120|80160|40120|40a120|40a135|40a150|5050|100100|quantity|click|parseInt|style|red|push|1e3|L4040|orderTable|tbody|input|number|total|Math|br|png|weights|85|createRow|div|button|checkDuplicateLength|borderColor|querySelectorAll|tr|forEach|totalLength|mm|if|XLSX|image|prices|93|89|innerHTML|disabled|validateInput|return|kg|for|ceil|100||utils|body|910||1310|560|86|07||63|97|67|02|52|51|select|type|min|6000|error|copyBtn|deleteBtn|blur|remove|target|nextElementSibling|color|in|exportToExcel|parseFloat|html2canvas|then|toDataURL|createElement|href|download|totalQuantity|updateBidResult|Object|big|amount|DOMContentLoaded|190|330|490|220|410|390|310|690|510|860|1060|1110|250|480|750|320|430|420|580|||590|610|470|300|570||890|380|820|1190|1070|1020|720|530|710|730|920|2050|1290|1650|1450|2900|4010|1980|950|1040|850|660|1550|2420|1940|1710|1210|2410|83|06|05|57|L404|95|59|98|55|78|insertRow|max|change|6e3|isNaN|round|totalAmount|totalWeight|modelSummary|aoa_to_sheet|book_new|book_append_sheet|writeFile|xlsx|takeScreenshot|var||||appendChild||removeChild|||captureScreenshot||content|to|capture|backgroundColor|null|useCORS|scale|replace|octet|stream|bidResult|classList|initial|message|keys|else|of|entries|floor|calculation|green|weight|gray|calculateBidResult|addNewRow|exportExcel|addRow|contextmenu|preventDefault|matches'];_0x3d65=function(){return _0x1f34e0;};return _0x3d65();} 
 
-
+    <div class="clearfix">
+        <button id="screenshotBtn">表格截圖</button>
+        <button id="exportExcel">匯出EXCEL檔</button>
+        <div class="contact-info">
+            PS : 將截圖或EXCEL檔請至💬網拍私訊｜LINE🆔@606mbsep｜📩indesign168@gmail.com<br>© 2024 達康科技版權所有。未經授權嚴禁複製盜用。
+        </div>
+    </div>
+    <script>     
+var _0x2f6e06=_0x3c93;function _0x3c93(_0x752c64,_0x2ad4c1){var _0x312d0c=_0x312d();return _0x3c93=function(_0x3c93d5,_0x562906){_0x3c93d5=_0x3c93d5-0xc8;var _0x367c64=_0x312d0c[_0x3c93d5];return _0x367c64;},_0x3c93(_0x752c64,_0x2ad4c1);}function _0x312d(){var _0x54c2ed=['split','||||||weight||price|||image||30x30||querySelector||const||class|value||function|||document|td||div||addEventListener|span|total|3030|ED|calculateTotal|textContent|forEach|number|optgroup|option|style|createRow|click|getElementById|push|6630L|updateRowNumbers|toFixed|1530|1560|1590|3030R|85|3060|3090|6060|6630R|4040|4040R|4080|8080||8840L|8840R|2020||2040|let|model||orderTable|tbody|input|length|quantity|button|querySelectorAll|amount|XLSX|products|1e3|93|89|label|selected|includes|font|bold|validateInput|tr|parseInt|red|trim|utils|67|02|07|L3030|3030C1|3030C2|30a120|30a135|30a150|63|L3060|97|910|6060R|L4040|L4040M12|560|4040C1|4040C2|40a120|40a135|40a150|52|L4080|40120|51|L8080|80120|80160||5050|100100|86||4420L|createModelSelect|select|return||innerHTML|row|type|min|6000|error|copyBtn|deleteBtn|blur|updateBidResult|h3|big|mm|bidResult|borderColor|exportToExcel|not|takeScreenshot|png|250|480|750|390|310|83|320|430|06|420|05|580|590|57|610|690|510|1110|860|1060|300|570|890|470|380|820|1190|1130|1070|1020|720|530|710|||730|95|950|55|1040||78|1310|920|1980|2050|1290|1650|1450|2900|59|4010|98|1210|2660|850|660|1550|2420|1940|1710|190|330|490|220|410|insertRow|max|change|6e3|remove|margin|bottom|for|of|Object|entries|Math|ceil|100|calculation|green|gray|kg|target|nextElementSibling|isNaN|remarks|startsWith|aoa_to_sheet|book_new|book_append_sheet|writeFile|xlsx|html2canvas||||body||then|||toDataURL||createElement|href|download|addRow|exportExcel|screenshotBtn|DOMContentLoaded','616IsHwqx','245796xJZOLU','587405LKFEWN','121BxVkWL','339tQEVyw','22401KUThDB','fromCharCode','22350pQInht','635466DIgaUs','14UTDTSn','4QqCaKZ','1199288yVqGoL','toString','h\x201i={N:{8:2t,6:.1x,b:\x22d\x22},O:{8:2u,6:1.29,b:\x22d\x22},P:{8:2v,6:2.1y,b:\x22d\x22},x:{8:2w,6:1.1z,b:\x22d\x22},\x221A(薄型)\x22:{8:2x,6:.2y,b:\x22d\x22},\x22Q\x22:{8:2z,6:.R,b:\x22d\x22},\x221B(y料)\x22:{8:2A,6:1.2B,b:\x22d\x22},\x221C(y料)\x22:{8:2C,6:1.2D,b:\x22d\x22},\x221D\x22:{8:2E,6:1.5,b:\x22d\x22},\x221E\x22:{8:2F,6:1.2G,b:\x22d\x22},\x221F\x22:{8:2H,6:1.1G,b:\x22d\x22},S:{8:2I,6:1.R,b:\x22d\x22},\x221H(薄型)\x22:{8:2J,6:1.37,b:\x22d\x22},T:{8:1j,6:2.7,b:\x22d\x22},U:{8:2K,6:2.1I,b:\x22d\x22},\x22K\x22:{8:1J,6:2.44,b:\x22d\x22},\x22V\x22:{8:2L,6:2.31,b:\x22d\x22},\x221K(y料)\x22:{8:2M,6:2.1G,b:\x22d\x22},\x22黑色N\x22:{8:2N,6:.1x,b:\x22d\x22},\x22黑色O\x22:{8:2O,6:1.29,b:\x22d\x22},\x22黑色P\x22:{8:2P,6:2.1y,b:\x22d\x22},\x22黑色x\x22:{8:2Q,6:1.1z,b:\x22d\x22},\x22黑色Q\x22:{8:2R,6:.R,b:\x22d\x22},\x22黑色S\x22:{8:2S,6:1.R,b:\x22d\x22},\x22黑色T\x22:{8:2T,6:2.7,b:\x22d\x22},\x22黑色U\x22:{8:2U,6:2.1I,b:\x22d\x22},\x22黑色K\x22:{8:2V,6:2.44,b:\x22d\x22},\x22黑色V\x22:{8:2W,6:2.31,b:\x22d\x22},W:{8:2X,6:1.1k,b:\x22d\x22},\x221L(薄型)\x22:{8:2Y,6:1.42,b:\x22d\x22},\x221M(薄型)\x22:{8:1N,6:1.49,b:\x22d\x22},\x22X\x22:{8:1N,6:1.5,b:\x22d\x22},\x221O\x22:{8:2Z,6:1.1l,b:\x22d\x22},\x221P\x22:{8:32,6:1.33,b:\x22d\x22},\x221Q\x22:{8:1J,6:2.44,b:\x22d\x22},\x221R\x22:{8:34,6:2.35,b:\x22d\x22},\x221S\x22:{8:36,6:2.38,b:\x22d\x22},Y:{8:39,6:3.1T,b:\x22d\x22},\x221U(薄型)\x22:{8:3a,6:2.47,b:\x22d\x22},1V:{8:3b,6:4.1k,b:\x22d\x22},Z:{8:3c,6:5.1W,b:\x22d\x22},\x221X(薄型)\x22:{8:3d,6:3.46,b:\x22d\x22},\x2211\x22:{8:3e,6:4.41,b:\x22d\x22},\x2212\x22:{8:3f,6:3.1l,b:\x22d\x22},1Y:{8:3g,6:7.3h,b:\x22d\x22},\x221Z(y料)\x22:{8:3i,6:9.3j,b:\x22d\x22},21:{8:3k,6:3.24,b:\x22d\x22},22:{8:3l,6:7.14,b:\x22d\x22},\x22黑色W\x22:{8:3m,6:1.1k,b:\x22d\x22},\x22黑色X\x22:{8:3n,6:1.5,b:\x22d\x22},\x22黑色Y\x22:{8:3o,6:3.1T,b:\x22d\x22},\x22黑色Z\x22:{8:3p,6:5.1W,b:\x22d\x22},\x22黑色11\x22:{8:3q,6:4.41,b:\x22d\x22},\x22黑色12\x22:{8:3r,6:3.1l,b:\x22d\x22},13:{8:3s,6:.46,b:\x22d\x22},15:{8:3t,6:.23,b:\x22d\x22},\x2225\x22:{8:3u,6:1.18,b:\x22d\x22},\x22黑色13\x22:{8:3v,6:.46,b:\x22d\x22},\x22黑色15\x22:{8:3w,6:.23,b:\x22d\x22}};m\x2026(e){16\x20t=\x27<27\x20j=\x2217\x22>\x27;28\x20t+=\x27<D\x201m=\x2230系列---\x22>\x27,[\x22N\x22,\x22O\x22,\x22P\x22,\x22x\x22,\x221A(薄型)\x22,\x22Q\x22,\x221B(y料)\x22,\x221C(y料)\x22,\x22S\x22,\x221H(薄型)\x22,\x22T\x22,\x22U\x22,\x22K\x22,\x22V\x22,\x22K\x22,\x221K(y料)\x22,\x221D\x22,\x221E\x22,\x221F\x22,\x22N黑色\x22,\x22O黑色\x22,\x22P黑色\x22,\x22x黑色\x22,\x22Q黑色\x22,\x22S黑色\x22,\x22T黑色\x22,\x22U黑色\x22,\x22K黑色\x22,\x22V黑色\x22].B(i=>{t+=`<E\x20k=\x22${i}\x22${e===i?\x221n\x22:\x22\x22}${i.1o(\x22黑色\x22)?\x27F=\x221p-6:\x201q;\x22\x27:\x22\x22}>${i}</E>`}),t+=\x22</D>\x22,t+=\x27<D\x201m=\x2240系列---\x22>\x27,[\x22W\x22,\x221L(薄型)\x22,\x221M(薄型)\x22,\x22X\x22,\x221O\x22,\x221P\x22,\x221Q\x22,\x221R\x22,\x221S\x22,\x22Y\x22,\x221U(薄型)\x22,\x221V\x22,\x22Z\x22,\x221X(薄型)\x22,\x2211\x22,\x2212\x22,\x221Y\x22,\x221Z(y料)\x22,\x2221\x22,\x2222\x22,\x22W黑色\x22,\x22X黑色\x22,\x22Y黑色\x22,\x22Z黑色\x22,\x2211黑色\x22,\x2212黑色\x22].B(i=>{t+=`<E\x20k=\x22${i}\x22${e===i?\x221n\x22:\x22\x22}${i.1o(\x22黑色\x22)?\x27F=\x221p-6:\x201q;\x22\x27:\x22\x22}>${i}</E>`}),t+=\x22</D>\x22,t+=\x27<D\x201m=\x2220系列---\x22>\x27,[\x2213\x22,\x2215\x22,\x2225\x22,\x2213黑色\x22,\x2215黑色\x22].B(i=>{t+=`<E\x20k=\x22${i}\x22${e===i?\x221n\x22:\x22\x22}${i.1o(\x22黑色\x22)?\x27F=\x221p-6:\x201q;\x22\x27:\x22\x22}>${i}</E>`}),t+=\x22</D>\x22,t+=\x22</27>\x22}m\x20G(e=\x22x\x22,t=\x22\x22,i=\x221\x22,a=!0){h\x20c=p.f(\x22#19\x201a\x22),r=c.3x();r.2a=`\x5cn<q\x20j=\x222b-C\x22></q>\x5cn<q>${26(e)}</q>\x5cn<q>\x5cn<1b\x202c=\x22C\x22j=\x221c\x222d=\x2230\x223y=\x222e\x22k=\x22${t}\x22>\x5cn<s\x20j=\x222f\x22></s>\x5cn</q>\x5cn<q>\x5cn<1b\x202c=\x22C\x22j=\x221d\x222d=\x221\x22k=\x22${i}\x22>\x5cn<s\x20j=\x222f\x22></s>\x5cn</q>\x5cn<q\x20j=\x22w\x22>0</q>\x5cn<q>\x5cn<1e\x20j=\x222g\x22>複製</1e>\x5cn<1e\x20j=\x222h\x22>刪除</1e>\x5cn</q>\x5cn`;h\x20n=r.f(\x22.17\x22),o=r.f(\x22.1c\x22),l=r.f(\x22.1d\x22);n.u(\x223z\x22,z),o.u(\x221b\x22,z),o.u(\x222i\x22,m(e){1r(e,30,3A,\x22長度必須在30到2e之間\x22)}),l.u(\x221b\x22,z),l.u(\x222i\x22,m(e){1r(e,1,1/0,\x22數量必須為正整數\x22)}),r.f(\x22.2h\x22).u(\x22H\x22,m(){r.3B(),z(),L()}),r.f(\x22.2g\x22).u(\x22H\x22,m(){G(n.k,\x22\x22,\x221\x22),z(),L()}),a&&z(),L()}m\x20L(){h\x20e=p.1f(\x22#19\x201a\x201s\x22);e.B((e,t)=>{e.f(\x22.2b-C\x22).A=t+1})}m\x20z(){16\x20e={};p.1f(\x22#19\x201a\x201s\x22).B(t=>{h\x20i=t.f(\x22.17\x22).k,a=1t(t.f(\x22.1c\x22).k)||0,c=1t(t.f(\x22.1d\x22).k)||0,r=1i[i],n=r.8*a*c/1j;t.f(\x22.w\x22).A=n.M(2),e[i]=(e[i]||0)+a*c}),2j(e)}m\x202j(e){16\x20t=\x27<2k\x20F=\x223C-3D:\x200;\x22>網拍下標數量及金額:</2k>\x27,i=0,a=0;3E(h[c,r]3F\x203G.3H(e)){h\x20e=3I.3J(r/3K),n=1i[c],o=(n.8/10).M(1),l=e*o;i+=l;h\x20g=r/1j*n.6;a+=g,t+=`<s>${c}下標:<v\x20j=\x221u-2l-C\x22>${e}</v>(總長共:${r}2m)`,t+=\x27<v\x20j=\x223L\x22>\x27,t+=`*單價${o}=`,t+=`<v\x20j=\x223M-1g\x22>$${l.M(2)}</v>`,t+=\x22</v></s>\x22}t+=\x27<s\x20j=\x22w-1g\x22>總金額：\x27,t+=`<v\x20j=\x221u-2l-C\x22>$${i.M(2)}</v>`,t+=\x22</s>\x22,t+=\x27<s\x20j=\x22w-6\x22>總重量：\x27,t+=`<v\x20j=\x223N-C\x22>${a.M(2)}3O</v>`,t+=\x22</s>\x22,p.I(\x222n\x22).2a=t}m\x201r(e,t,i,a){h\x20c=e.3P,r=c.3Q,n=1t(c.k);28\x203R(n)||n<t||n>i?(r.A=a,c.F.2o=\x221u\x22,c.k=\x22\x22,!1):(r.A=\x22\x22,c.F.2o=\x22\x22,!0)}m\x202p(){16\x20e=[[\x22鋁擠型\x20型號\x22,\x22長度(2m)\x22,\x22數量\x22,\x22金額\x22]];p.1f(\x22#19\x201a\x201s\x22).B(t=>{h\x20i=t.f(\x22.17\x22).k,a=t.f(\x22.1c\x22).k,c=t.f(\x22.1d\x22).k,r=t.f(\x22.w\x22).A;e.J([i,a,c,r])});h\x20t=p.I(\x223S\x22).k;e.J([\x22備註:\x22,t]),e.J([\x22網拍下標數量及金額:\x22]);h\x20i=p.I(\x222n\x22),a=i.1f(\x22s:2q(.w-1g):2q(.w-6)\x22);a.B(t=>{h\x20i=t.A.1v();i&&!i.3T(\x22網拍下標數量及金額:\x22)&&e.J([i])});h\x20c=i.f(\x22.w-1g\x22).A.1v(),r=i.f(\x22.w-6\x22).A.1v();e.J([c]),e.J([r]);h\x20n=1h.1w.3U(e),o=1h.1w.3V();1h.1w.3W(o,n,\x22鋁擠型訂單\x22),1h.3X(o,\x22鋁擠型訂單.3Y\x22)}m\x202r(){3Z(p.43).45(m(e){h\x20t=e.48(\x22b/2s\x22),i=p.4a(\x22a\x22);i.4b=t,i.4c=\x22鋁擠型長度試算表截圖.2s\x22,i.H()})}p.I(\x224d\x22).u(\x22H\x22,()=>G()),p.I(\x224e\x22).u(\x22H\x22,2p),p.I(\x224f\x22).u(\x22H\x22,2r),p.u(\x224g\x22,m(){G(\x22x\x22,\x22\x22,\x221\x22,!1),G(\x22x\x22,\x22\x22,\x221\x22,!1),G(\x22x\x22,\x22\x22,\x221\x22,!1),z(),L()});','9wFNpYo'];_0x312d=function(){return _0x54c2ed;};return _0x312d();}(function(_0x48b629,_0x28ea74){var _0x5477fc=_0x3c93,_0x27e866=_0x48b629();while(!![]){try{var _0x2d735b=-parseInt(_0x5477fc(0xce))/0x1*(-parseInt(_0x5477fc(0xca))/0x2)+parseInt(_0x5477fc(0xcf))/0x3+-parseInt(_0x5477fc(0xd4))/0x4*(parseInt(_0x5477fc(0xcc))/0x5)+parseInt(_0x5477fc(0xd2))/0x6*(parseInt(_0x5477fc(0xd3))/0x7)+parseInt(_0x5477fc(0xd5))/0x8+parseInt(_0x5477fc(0xd8))/0x9*(parseInt(_0x5477fc(0xd1))/0xa)+parseInt(_0x5477fc(0xcd))/0xb*(-parseInt(_0x5477fc(0xcb))/0xc);if(_0x2d735b===_0x28ea74)break;else _0x27e866['push'](_0x27e866['shift']());}catch(_0x2c4441){_0x27e866['push'](_0x27e866['shift']());}}}(_0x312d,0x207bd),eval(function(_0x185cb1,_0x2515c6,_0x51795d,_0x4393e3,_0x3c8b1f,_0x2dcdbd){_0x3c8b1f=function(_0x215014){var _0x5cf4e5=_0x3c93;return(_0x215014<_0x2515c6?'':_0x3c8b1f(parseInt(_0x215014/_0x2515c6)))+((_0x215014=_0x215014%_0x2515c6)>0x23?String[_0x5cf4e5(0xd0)](_0x215014+0x1d):_0x215014[_0x5cf4e5(0xd6)](0x24));};if(!''['replace'](/^/,String)){while(_0x51795d--)_0x2dcdbd[_0x3c8b1f(_0x51795d)]=_0x4393e3[_0x51795d]||_0x3c8b1f(_0x51795d);_0x4393e3=[function(_0x3e255c){return _0x2dcdbd[_0x3e255c];}],_0x3c8b1f=function(){return'\x5cw+';},_0x51795d=0x1;};while(_0x51795d--)if(_0x4393e3[_0x51795d])_0x185cb1=_0x185cb1['replace'](new RegExp('\x5cb'+_0x3c8b1f(_0x51795d)+'\x5cb','g'),_0x4393e3[_0x51795d]);return _0x185cb1;}(_0x2f6e06(0xd7),0x3e,0x109,_0x2f6e06(0xc9)[_0x2f6e06(0xc8)]('|'),0x0,{})));    
     </script>
 </body>
 </html>
